@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>درج الكاشير - حساب الباقي والفئات</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f3ff;
+      margin: 0;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+    }
+    .card {
+      background: #ffffff;
+      padding: 22px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.12);
+      box-sizing: border-box;
+      border: 1px solid #ede9fe;
+    }
+    h2 {
+      text-align: center;
+      margin: 0 0 6px 0;
+      color: #1e1b4b;
+      font-size: 19px;
+    }
+    .author-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      margin: 0 auto 10px auto;
+      padding: 4px 14px;
+      background: #f1f3fe;
+      border: 1px solid #e0e7ff;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #4f46e5;
+      font-weight: 600;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #6366f1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .social-btn:hover {
+      background: #6366f1;
+      color: #ffffff;
+    }
+    .social-btn.wa-btn {
+      color: #25D366;
+      border-color: #dcfce7;
+      background: #f0fdf4;
+    }
+    .social-btn.wa-btn:hover {
+      background: #25D366;
+      color: #ffffff;
+      border-color: #25D366;
+    }
+    .social-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 12px;
+      color: #334155;
+      font-size: 13.5px;
+    }
+    input {
+      width: 100%;
+      padding: 11px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      font-size: 18px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #received {
+      direction: ltr;
+      text-align: left;
+      font-family: monospace, sans-serif;
+      font-weight: bold;
+    }
+    #total {
+      direction: ltr;
+      text-align: left;
+      font-family: monospace, sans-serif;
+      font-weight: bold;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    input:focus {
+      border-color: #6366f1;
+    }
+    .word-preview {
+      font-size: 12.5px;
+      color: #4f46e5;
+      font-weight: 700;
+      margin-top: 3px;
+      min-height: 18px;
+    }
+    .audit-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      min-height: 24px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .hint-total {
+      font-size: 12.5px;
+      color: #4f46e5;
+      font-weight: bold;
+      line-height: 1.4;
+    }
+    .btn-audit {
+      background: #ede9fe;
+      color: #4338ca;
+      border: 1px solid #c7d2fe;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-audit:hover {
+      background: #e0e7ff;
+    }
+
+    .pos-keypad {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .key-btn {
+      padding: 11px 4px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #1e293b;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.1s;
+    }
+    .key-btn:active {
+      transform: scale(0.96);
+      background: #e2e8f0;
+    }
+    .key-frac {
+      background: #ede9fe;
+      color: #5b21b6;
+      border-color: #ddd6fe;
+      font-size: 13.5px;
+    }
+    .key-op {
+      background: #e0e7ff;
+      color: #3730a3;
+      border-color: #c7d2fe;
+      font-size: 18px;
+    }
+    .key-del {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fca5a5;
+    }
+    .key-clear {
+      background: #f1f5f9;
+      color: #64748b;
+      border-color: #cbd5e1;
+    }
+
+    /* نافذة المراجعة والتدقيق */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 14px;
+      z-index: 1000;
+    }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 400px;
+      padding: 18px;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-sizing: border-box;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .modal-header h3 {
+      margin: 0;
+      font-size: 16px;
+      color: #1e1b4b;
+    }
+    .modal-close-icon {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #64748b;
+    }
+    .audit-list {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 160px;
+      border: 1px solid #f1f5f9;
+      border-radius: 8px;
+      padding: 6px;
+      background: #fafafa;
+      margin-bottom: 10px;
+    }
+    .audit-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 10px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      margin-bottom: 5px;
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+    .audit-item.latest {
+      border-color: #818cf8;
+      background: #f5f3ff;
+    }
+    .badge-latest {
+      font-size: 10.5px;
+      background: #6366f1;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 6px;
+    }
+    .audit-item-del {
+      color: #ef4444;
+      background: none;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+    .audit-total-line {
+      font-size: 13.5px;
+      font-weight: bold;
+      color: #4338ca;
+      text-align: center;
+      padding: 6px;
+      background: #eef2ff;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .options-box {
+      margin-top: 14px;
+      padding: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+    .options-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #475569;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-toggle {
+      background: none;
+      border: none;
+      color: #6366f1;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0;
+      font-weight: 600;
+    }
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: normal;
+      margin-top: 0;
+      cursor: pointer;
+      color: #1e293b;
+    }
+    .checkbox-label input {
+      accent-color: #6366f1;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .summary {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .success { background: #dcfce7; color: #166534; }
+    .error { background: #fee2e2; color: #991b1b; }
+    .breakdown {
+      margin-top: 16px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 12px;
+    }
+    .breakdown-title {
+      font-weight: bold;
+      color: #1e293b;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .currency-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 10px;
+      margin-bottom: 5px;
+      background: #f8fafc;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+    }
+    .denom-name { font-weight: 600; color: #334155; font-size: 13.5px; }
+    .denom-count {
+      background: #6366f1;
+      color: white;
+      padding: 3px 9px;
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .rounding-note {
+      font-size: 12px;
+      color: #b91c1c;
+      margin-top: 8px;
+      text-align: center;
+      background: #fff1f2;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #fecdd3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>درج الكاشير - حساب الباقي والفئات</h2>
+
+  <div class="author-badge">
+    <span>المحامي احمد صكبان</span>
+  </div>
+
+  <div class="social-links">
+    <a href="tel:07807493999" class="social-btn" title="اتصال هاتفي">
+      <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+    </a>
+    <a href="https://api.whatsapp.com/send?phone=9647807493999" target="_blank" rel="noopener noreferrer" class="social-btn wa-btn" title="واتساب">
+      <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm.01 18.08c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.04 8.04 0 0 1-1.24-4.31c0-4.48 3.65-8.13 8.14-8.13 2.17 0 4.21.85 5.75 2.38a8.07 8.07 0 0 1 2.39 5.75c0 4.49-3.66 8.16-8.25 8.16z"/></svg>
+    </a>
+    <a href="https://telegram.me/lwa97" target="_blank" rel="noopener noreferrer" class="social-btn" title="تليغرام">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/lw_az6/" target="_blank" rel="noopener noreferrer" class="social-btn" title="إنستغرام">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+  </div>
+
+  <label>المبلغ المستلم من الزبون (بالدينار):</label>
+  <input type="text" id="received" placeholder="مثال: 50,000" inputmode="numeric" oninput="formatReceivedInput()">
+  <div id="receivedWords" class="word-preview"></div>
+
+  <label>المبلغ المطلوب:</label>
+  <input type="text" id="total" placeholder="0" readonly>
+  
+  <div class="audit-bar">
+    <div id="hintTotal" class="hint-total"></div>
+    <button type="button" class="btn-audit" onclick="openAuditModal()">📋 تدقيق ومراجعة المبالغ</button>
+  </div>
+
+  <!-- لوحة الكاشير الرئيسية -->
+  <div class="pos-keypad" id="mainKeypad">
+    <button type="button" class="key-btn" onclick="pressKey('7')">7</button>
+    <button type="button" class="key-btn" onclick="pressKey('8')">8</button>
+    <button type="button" class="key-btn" onclick="pressKey('9')">9</button>
+    <button type="button" class="key-btn key-frac" onclick="pressSmartFrac(250)">+ 250</button>
+
+    <button type="button" class="key-btn" onclick="pressKey('4')">4</button>
+    <button type="button" class="key-btn" onclick="pressKey('5')">5</button>
+    <button type="button" class="key-btn" onclick="pressKey('6')">6</button>
+    <button type="button" class="key-btn key-frac" onclick="pressSmartFrac(500)">+ 500</button>
+
+    <button type="button" class="key-btn" onclick="pressKey('1')">1</button>
+    <button type="button" class="key-btn" onclick="pressKey('2')">2</button>
+    <button type="button" class="key-btn" onclick="pressKey('3')">3</button>
+    <button type="button" class="key-btn key-frac" onclick="pressSmartFrac(750)">+ 750</button>
+
+    <button type="button" class="key-btn" onclick="pressKey('0')">0</button>
+    <button type="button" class="key-btn key-op" onclick="pressKey('000')">000</button>
+    <button type="button" class="key-btn key-op" onclick="pressOp('+')">+</button>
+    <button type="button" class="key-btn key-del" onclick="pressDel()">⌫</button>
+
+    <button type="button" class="key-btn key-clear" style="grid-column: span 4;" onclick="pressClear()">مسح الحقل بالكامل (C)</button>
+  </div>
+
+  <div class="options-box">
+    <div class="options-title">
+      <span>الفئات المتوفرة في الدرج:</span>
+      <button type="button" class="btn-toggle" onclick="toggleAll()">تحديد الكل / إلغاء</button>
+    </div>
+    <div class="checkbox-grid">
+      <label class="checkbox-label"><input type="checkbox" class="denom-check" value="50000" checked onchange="calculateIQD()"> 50 ألف</label>
+      <label class="checkbox-label"><input type="checkbox" class="denom-check" value="25000" checked onchange="calculateIQD()"> 25 ألف</label>
+      <label class="checkbox-label"><input type="checkbox" class="denom-check" value="10000" checked onchange="calculateIQD()"> 10 آلاف</label>
+      <label class="checkbox-label"><input type="checkbox" class="denom-check" value="5000" checked onchange="calculateIQD()"> 5 آلاف</label>
+      <label class="checkbox-label"><input type="checkbox" class="denom-check" value="1000" checked onchange="calculateIQD()"> ألف دينار</label>
+      <label class="checkbox-label"><input type="checkbox" class="denom-check" value="500" checked onchange="calculateIQD()"> خمسمية (نص)</label>
+      <label class="checkbox-label"><input type="checkbox" class="denom-check" value="250" checked onchange="calculateIQD()"> مئتان وخمسون (ربع)</label>
+    </div>
+  </div>
+
+  <div id="status" class="summary" style="display:none;"></div>
+
+  <div class="breakdown" id="breakdownSection" style="display:none;">
+    <div class="breakdown-title">الفئات المقترحة للإرجاع:</div>
+    <div id="breakdownList"></div>
+    <div id="roundingNotice" class="rounding-note" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- نافذة المراجعة والتدقيق -->
+<div id="auditModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>قائمة تدقيق المبالغ (من الأحدث للأقدم)</h3>
+      <button type="button" class="modal-close-icon" onclick="closeAuditModal()">✖</button>
+    </div>
+
+    <div class="audit-list" id="auditItemsList"></div>
+
+    <div class="audit-total-line" id="modalTotalLine">المجموع: 0 د.ع</div>
+
+    <div class="pos-keypad" style="margin-top:0; padding:6px;">
+      <button type="button" class="key-btn" onclick="pressKey('7')">7</button>
+      <button type="button" class="key-btn" onclick="pressKey('8')">8</button>
+      <button type="button" class="key-btn" onclick="pressKey('9')">9</button>
+      <button type="button" class="key-btn key-frac" onclick="pressSmartFrac(250)">+ 250</button>
+
+      <button type="button" class="key-btn" onclick="pressKey('4')">4</button>
+      <button type="button" class="key-btn" onclick="pressKey('5')">5</button>
+      <button type="button" class="key-btn" onclick="pressKey('6')">6</button>
+      <button type="button" class="key-btn key-frac" onclick="pressSmartFrac(500)">+ 500</button>
+
+      <button type="button" class="key-btn" onclick="pressKey('1')">1</button>
+      <button type="button" class="key-btn" onclick="pressKey('2')">2</button>
+      <button type="button" class="key-btn" onclick="pressKey('3')">3</button>
+      <button type="button" class="key-btn key-frac" onclick="pressSmartFrac(750)">+ 750</button>
+
+      <button type="button" class="key-btn" onclick="pressKey('0')">0</button>
+      <button type="button" class="key-btn key-op" onclick="pressKey('000')">000</button>
+      <button type="button" class="key-btn key-op" onclick="pressOp('+')">+</button>
+      <button type="button" class="key-btn key-del" onclick="pressDel()">⌫</button>
+    </div>
+
+    <button type="button" class="key-btn" style="background:#6366f1; color:#fff; border:none; margin-top:8px;" onclick="closeAuditModal()">تم وإغلاق النافذة</button>
+  </div>
+</div>
+
+<script>
+var IQD_MAP = {
+  50000: "50 ألف دينار",
+  25000: "25 ألف دينار",
+  10000: "10 آلاف دينار",
+  5000:  "5 آلاف دينار",
+  1000:  "ألف دينار",
+  500:   "خمسمية دينار (نص)",
+  250:   "مئتان وخمسون (ربع)"
+};
+
+function formatIQDWords(num) {
+  if (!num || num <= 0) return "";
+  
+  var billions = Math.floor(num / 1000000000);
+  var remAfterBillions = num % 1000000000;
+
+  var millions = Math.floor(remAfterBillions / 1000000);
+  var remAfterMillions = remAfterBillions % 1000000;
+
+  var thousands = Math.floor(remAfterMillions / 1000);
+  var remainder = remAfterMillions % 1000;
+  
+  var parts = [];
+
+  // معالجة المليارات
+  if (billions > 0) {
+    if (billions === 1) parts.push("مليار");
+    else if (billions === 2) parts.push("مليارين");
+    else if (billions >= 3 && billions <= 10) parts.push(billions + " مليارات");
+    else parts.push(billions.toLocaleString('en-US') + " مليار");
+  }
+
+  // معالجة الملايين
+  if (millions > 0) {
+    if (millions === 1) parts.push("مليون");
+    else if (millions === 2) parts.push("مليونين");
+    else if (millions >= 3 && millions <= 10) parts.push(millions + " ملايين");
+    else parts.push(millions.toLocaleString('en-US') + " مليون");
+  }
+
+  // معالجة الآلاف
+  if (thousands > 0) {
+    if (thousands === 1) parts.push("ألف");
+    else if (thousands === 2) parts.push("ألفين");
+    else if (thousands >= 3 && thousands <= 10) parts.push(thousands + " آلاف");
+    else parts.push(thousands.toLocaleString('en-US') + " ألف");
+  }
+
+  // معالجة الفكة / الكسور
+  if (remainder > 0) {
+    var remText = remainder === 250 ? "ربع" : remainder === 500 ? "نص" : remainder === 750 ? "إلا ربع" : remainder;
+    parts.push(remText);
+  }
+
+  return "👈 (" + parts.join(" و ") + " دينار)";
+}
+
+function formatReceivedInput() {
+  var input = document.getElementById('received');
+  var raw = input.value.replace(/[^0-9]/g, '');
+
+  if (raw === "") {
+    input.value = "";
+    document.getElementById('receivedWords').innerText = "";
+    calculateIQD();
+    return;
+  }
+
+  var num = parseInt(raw, 10);
+  input.value = num.toLocaleString('en-US');
+  document.getElementById('receivedWords').innerText = formatIQDWords(num);
+  calculateIQD();
+}
+
+var currentTotalExpr = "";
+
+function getCurrentPart() {
+  if (!currentTotalExpr) return "";
+  var parts = currentTotalExpr.split(" + ");
+  return parts[parts.length - 1].trim();
+}
+
+function pressKey(val) {
+  var lastPart = getCurrentPart();
+  if ((val === '0' || val === '000') && (lastPart === "" || currentTotalExpr.endsWith(" + "))) {
+    return;
+  }
+  currentTotalExpr += val;
+  updateTotalField();
+}
+
+function normalizeCurrentPart() {
+  if (!currentTotalExpr || currentTotalExpr.endsWith(" + ")) return;
+  var parts = currentTotalExpr.split(" + ");
+  var lastPart = parts[parts.length - 1].trim();
+  var num = parseFloat(lastPart);
+  
+  if (!isNaN(num) && num > 0 && num < 250) {
+    parts[parts.length - 1] = (num * 1000).toString();
+    currentTotalExpr = parts.join(" + ");
+  }
+}
+
+function pressOp(op) {
+  if (currentTotalExpr === "" || currentTotalExpr.endsWith(" + ")) return;
+  normalizeCurrentPart();
+  currentTotalExpr += " " + op + " ";
+  updateTotalField();
+}
+
+// دمج الكسر تلقائياً وإلحاقه بإشارة الجمع (+) مباشرةً لمنع التصاق الأرقام التالية
+function pressSmartFrac(fracVal) {
+  if (currentTotalExpr === "" || currentTotalExpr.endsWith(" + ")) {
+    currentTotalExpr += fracVal + " + ";
+  } else {
+    var parts = currentTotalExpr.split(" + ");
+    var lastPart = parts[parts.length - 1].trim();
+    var lastNum = parseFloat(lastPart);
+
+    if (!isNaN(lastNum)) {
+      var combined = 0;
+      if (lastNum < 250) {
+        combined = (lastNum * 1000) + fracVal;
+      } else if (lastNum % 1000 === 0) {
+        combined = lastNum + fracVal;
+      } else {
+        normalizeCurrentPart();
+        currentTotalExpr += " + " + fracVal + " + ";
+        updateTotalField();
+        return;
+      }
+      parts[parts.length - 1] = combined.toString();
+      currentTotalExpr = parts.join(" + ") + " + ";
+    } else {
+      currentTotalExpr += fracVal + " + ";
+    }
+  }
+  updateTotalField();
+}
+
+function pressDel() {
+  if (currentTotalExpr.endsWith(" + ")) {
+    currentTotalExpr = currentTotalExpr.slice(0, -3);
+  } else {
+    currentTotalExpr = currentTotalExpr.slice(0, -1);
+  }
+  updateTotalField();
+}
+
+function pressClear() {
+  currentTotalExpr = "";
+  updateTotalField();
+}
+
+function updateTotalField() {
+  var totalInput = document.getElementById('total');
+  totalInput.value = currentTotalExpr;
+
+  setTimeout(function() {
+    totalInput.scrollLeft = totalInput.scrollWidth;
+  }, 10);
+
+  calculateIQD();
+  if (document.getElementById('auditModal').style.display === 'flex') {
+    renderAuditList();
+  }
+}
+
+function openAuditModal() {
+  renderAuditList();
+  document.getElementById('auditModal').style.display = 'flex';
+}
+
+function closeAuditModal() {
+  document.getElementById('auditModal').style.display = 'none';
+}
+
+function renderAuditList() {
+  var listEl = document.getElementById('auditItemsList');
+  listEl.innerHTML = "";
+  
+  var trimmedExpr = currentTotalExpr.trim();
+  if (trimmedExpr.endsWith("+")) {
+    trimmedExpr = trimmedExpr.slice(0, -1).trim();
+  }
+
+  if (!trimmedExpr) {
+    listEl.innerHTML = "<div style='text-align:center; color:#94a3b8; padding:20px; font-size:13px;'>لا توجد مبالغ مدخلة حتى الآن</div>";
+    document.getElementById('modalTotalLine').innerText = "المجموع: 0 د.ع";
+    return;
+  }
+
+  var parts = trimmedExpr.split(" + ");
+  var validSum = 0;
+  var itemsArray = [];
+
+  for (var i = 0; i < parts.length; i++) {
+    var raw = parts[i].trim();
+    if (!raw) continue;
+    var num = parseFloat(raw);
+    var actualVal = (num > 0 && num < 250) ? (num * 1000) : num;
+    validSum += actualVal;
+    itemsArray.push({ index: i, val: actualVal });
+  }
+
+  for (var j = itemsArray.length - 1; j >= 0; j--) {
+    var item = itemsArray[j];
+    var isLatest = (j === itemsArray.length - 1);
+
+    var div = document.createElement('div');
+    div.className = "audit-item" + (isLatest ? " latest" : "");
+    div.innerHTML = "<span>" +
+                    (isLatest ? "<span class='badge-latest'>آخر إضافة</span>" : "") +
+                    item.val.toLocaleString('ar-IQ') + " د.ع</span>" +
+                    "<button type='button' class='audit-item-del' onclick='removeAuditItem(" + item.index + ")'>❌</button>";
+    listEl.appendChild(div);
+  }
+
+  var modalWords = formatIQDWords(validSum);
+  document.getElementById('modalTotalLine').innerText = "المجموع: " + validSum.toLocaleString('ar-IQ') + " د.ع " + modalWords;
+}
+
+function removeAuditItem(index) {
+  var trimmedExpr = currentTotalExpr.trim();
+  if (trimmedExpr.endsWith("+")) {
+    trimmedExpr = trimmedExpr.slice(0, -1).trim();
+  }
+  var parts = trimmedExpr.split(" + ");
+  parts.splice(index, 1);
+  currentTotalExpr = parts.length > 0 ? parts.join(" + ") + " + " : "";
+  updateTotalField();
+}
+
+var allSelected = true;
+function toggleAll() {
+  allSelected = !allSelected;
+  var boxes = document.querySelectorAll('.denom-check');
+  for (var i = 0; i < boxes.length; i++) {
+    boxes[i].checked = allSelected;
+  }
+  calculateIQD();
+}
+
+function calculateIQD() {
+  var recEl = document.getElementById('received');
+  var rawReceived = recEl.value.replace(/[^0-9]/g, '');
+  var received = parseFloat(rawReceived) || 0;
+
+  var total = 0;
+  if (currentTotalExpr.trim() !== "") {
+    var parts = currentTotalExpr.split('+');
+    for (var p = 0; p < parts.length; p++) {
+      var cleanStr = parts[p].replace(/[^0-9.]/g, '');
+      var num = parseFloat(cleanStr);
+      if (!isNaN(num)) {
+        if (num > 0 && num < 250) {
+          total += (num * 1000);
+        } else {
+          total += num;
+        }
+      }
+    }
+  }
+
+  var hintTot = document.getElementById('hintTotal');
+  var status = document.getElementById('status');
+  var section = document.getElementById('breakdownSection');
+  var list = document.getElementById('breakdownList');
+  var roundingNotice = document.getElementById('roundingNotice');
+
+  if (total > 0) {
+    var totalWords = formatIQDWords(total);
+    hintTot.innerText = "المجموع: " + total.toLocaleString('ar-IQ') + " د.ع " + totalWords;
+  } else {
+    hintTot.innerText = "";
+  }
+
+  if (received === 0 && total === 0) {
+    status.style.display = 'none';
+    section.style.display = 'none';
+    return;
+  }
+
+  status.style.display = 'block';
+
+  if (received < total) {
+    status.className = "summary error";
+    var diff = total - received;
+    status.innerText = "المبلغ ناقص بمقدار: " + diff.toLocaleString('ar-IQ') + " د.ع";
+    section.style.display = 'none';
+    return;
+  }
+
+  var change = received - total;
+  status.className = "summary success";
+  status.innerText = "الباقي للزبون: " + change.toLocaleString('ar-IQ') + " د.ع";
+
+  list.innerHTML = "";
+  roundingNotice.style.display = "none";
+
+  if (change > 0) {
+    section.style.display = 'block';
+
+    var checkedBoxes = document.querySelectorAll('.denom-check:checked');
+    var availableDenoms = [];
+    for (var c = 0; c < checkedBoxes.length; c++) {
+      availableDenoms.push(parseInt(checkedBoxes[c].value, 10));
+    }
+    availableDenoms.sort(function(a, b) { return b - a; });
+
+    if (availableDenoms.length === 0) {
+      roundingNotice.style.display = "block";
+      roundingNotice.innerText = "تنبيه: لم تحدد أي فئة متوفرة في الدرج!";
+      return;
+    }
+
+    var temp = Math.floor(change);
+
+    for (var d = 0; d < availableDenoms.length; d++) {
+      var val = availableDenoms[d];
+      if (temp >= val) {
+        var count = Math.floor(temp / val);
+        temp = temp % val;
+
+        var itemDiv = document.createElement('div');
+        itemDiv.className = "currency-item";
+        itemDiv.innerHTML = '<span class="denom-name">' + IQD_MAP[val] + '</span><span class="denom-count">' + count + ' ورقة</span>';
+        list.appendChild(itemDiv);
+      }
+    }
+
+    if (temp > 0) {
+      roundingNotice.style.display = "block";
+      roundingNotice.innerText = "تعذر إكمال صرف مبلغ (" + temp.toLocaleString('ar-IQ') + " د.ع) لعدم توفر فئات أصغر مفعلة.";
+    }
+  } else {
+    section.style.display = 'none';
+  }
+}
+</script>
+
+</body>
+</html>
