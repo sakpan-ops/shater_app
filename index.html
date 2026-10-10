@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- وسوم منع الكاش لضمان وصول التحديث لتطبيق الهاتف فوراً -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -11,24 +10,24 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f3ff;
+      background: #eeeaf8;
       margin: 0;
       padding: 16px;
       display: flex;
       justify-content: center;
     }
     .card {
-      background: #ffffff;
+      background: #fbfbfe;
       padding: 18px;
       border-radius: 16px;
       width: 100%;
       max-width: 420px;
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.12);
+      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.1);
       box-sizing: border-box;
-      border: 1px solid #ede9fe;
+      border: 1px solid #e0dcf2;
     }
 
-    /* المستطيل العلوي المدمج المتناسق مع ألوان التطبيق */
+    /* المستطيل العلوي المدمج للهوية وأزرار التواصل */
     .top-header-box {
       background: linear-gradient(145deg, #4f46e5, #3730a3);
       border-radius: 14px;
@@ -125,6 +124,7 @@
       border: 1.5px solid #cbd5e1;
       border-radius: 8px;
       outline: none;
+      background: #f8fafc;
       transition: border-color 0.2s;
     }
     #received {
@@ -143,6 +143,7 @@
     }
     input:focus {
       border-color: #6366f1;
+      background: #ffffff;
     }
     .word-preview {
       font-size: 12.5px;
@@ -186,17 +187,17 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
       margin-top: 10px;
-      background: #f8fafc;
+      background: #f2eefb;
       padding: 10px;
       border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #ded6f5;
     }
     .key-btn {
       padding: 11px 4px;
       border-radius: 8px;
       font-size: 15px;
       font-weight: bold;
-      border: 1px solid #cbd5e1;
+      border: 1px solid #d4cde8;
       background: #ffffff;
       color: #1e293b;
       cursor: pointer;
@@ -205,7 +206,7 @@
     }
     .key-btn:active {
       transform: scale(0.96);
-      background: #e2e8f0;
+      background: #e9e4f5;
     }
     .key-frac {
       background: #ede9fe;
@@ -225,8 +226,8 @@
       border-color: #fca5a5;
     }
     .key-clear {
-      background: #f1f5f9;
-      color: #64748b;
+      background: #e6e2f3;
+      color: #475569;
       border-color: #cbd5e1;
     }
 
@@ -245,7 +246,7 @@
       z-index: 1000;
     }
     .modal-card {
-      background: #ffffff;
+      background: #fbfbfe;
       border-radius: 16px;
       width: 100%;
       max-width: 400px;
@@ -255,6 +256,7 @@
       flex-direction: column;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       box-sizing: border-box;
+      border: 1px solid #e0dcf2;
     }
     .modal-header {
       display: flex;
@@ -280,10 +282,10 @@
       flex: 1;
       overflow-y: auto;
       max-height: 160px;
-      border: 1px solid #f1f5f9;
+      border: 1px solid #e4e0f5;
       border-radius: 8px;
       padding: 6px;
-      background: #fafafa;
+      background: #f6f3fc;
       margin-bottom: 10px;
     }
     .audit-item {
@@ -292,7 +294,7 @@
       align-items: center;
       padding: 6px 10px;
       background: #ffffff;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #ded8f3;
       border-radius: 6px;
       margin-bottom: 5px;
       font-size: 13.5px;
@@ -300,7 +302,7 @@
     }
     .audit-item.latest {
       border-color: #818cf8;
-      background: #f5f3ff;
+      background: #ede9fe;
     }
     .badge-latest {
       font-size: 10.5px;
@@ -333,8 +335,8 @@
     .options-box {
       margin-top: 14px;
       padding: 12px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #f4f1fb;
+      border: 1px solid #e2ddf3;
       border-radius: 8px;
     }
     .options-title {
@@ -388,7 +390,7 @@
     .error { background: #fee2e2; color: #991b1b; }
     .breakdown {
       margin-top: 16px;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid #e5e0f5;
       padding-top: 12px;
     }
     .breakdown-title {
@@ -403,9 +405,9 @@
       align-items: center;
       padding: 7px 10px;
       margin-bottom: 5px;
-      background: #f8fafc;
+      background: #f4f1fb;
       border-radius: 6px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #e0dcf2;
     }
     .denom-name { font-weight: 600; color: #334155; font-size: 13.5px; }
     .denom-count {
@@ -432,7 +434,6 @@
 
 <div class="card">
   
-  <!-- المستطيل العلوي المدمج للهوية وأزرار التواصل -->
   <div class="top-header-box">
     <h2>درج الكاشير - حساب الباقي والفئات</h2>
 
@@ -581,7 +582,6 @@ function formatIQDWords(num) {
   
   var parts = [];
 
-  // معالجة المليارات
   if (billions > 0) {
     if (billions === 1) parts.push("مليار");
     else if (billions === 2) parts.push("مليارين");
@@ -589,7 +589,6 @@ function formatIQDWords(num) {
     else parts.push(billions.toLocaleString('en-US') + " مليار");
   }
 
-  // معالجة الملايين
   if (millions > 0) {
     if (millions === 1) parts.push("مليون");
     else if (millions === 2) parts.push("مليونين");
@@ -597,7 +596,6 @@ function formatIQDWords(num) {
     else parts.push(millions.toLocaleString('en-US') + " مليون");
   }
 
-  // معالجة الآلاف
   if (thousands > 0) {
     if (thousands === 1) parts.push("ألف");
     else if (thousands === 2) parts.push("ألفين");
@@ -605,7 +603,6 @@ function formatIQDWords(num) {
     else parts.push(thousands.toLocaleString('en-US') + " ألف");
   }
 
-  // معالجة الفكة / الكسور
   if (remainder > 0) {
     var remText = remainder === 250 ? "ربع" : remainder === 500 ? "نص" : remainder === 750 ? "إلا ربع" : remainder;
     parts.push(remText);
@@ -667,7 +664,6 @@ function pressOp(op) {
   updateTotalField();
 }
 
-// دمج الكسر تلقائياً وإلحاقه بإشارة الجمع (+) مباشرةً لمنع التصاق الأرقام التالية
 function pressSmartFrac(fracVal) {
   if (currentTotalExpr === "" || currentTotalExpr.endsWith(" + ")) {
     currentTotalExpr += fracVal + " + ";
