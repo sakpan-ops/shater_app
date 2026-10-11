@@ -2,441 +2,577 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>درج الكاشير - حساب الباقي والفئات</title>
   <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-soft: #ede9fe;
+      --violet-dark: #1e1035;
+      --border: #e2e8f0;
+      --success-bg: #ecfdf5;
+      --success-border: #a7f3d0;
+      --success-text: #065f46;
+      --danger-bg: #fef2f2;
+      --danger-border: #fecaca;
+      --danger-text: #991b1b;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f3ff;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 50%, #0f172a 100%);
       margin: 0;
       padding: 16px;
       display: flex;
       justify-content: center;
+      min-height: 100vh;
+      color: #0f172a;
     }
+
+    /* زجاجة البرنامج بتدرج لوني فخم وشفافية عصرية */
     .card {
-      background: #ffffff;
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 255, 0.94) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       padding: 22px;
-      border-radius: 16px;
+      border-radius: 26px;
       width: 100%;
-      max-width: 420px;
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.12);
-      box-sizing: border-box;
-      border: 1px solid #ede9fe;
+      max-width: 430px;
+      box-shadow: 0 25px 50px -12px rgba(15, 7, 34, 0.4), 0 0 0 1px rgba(167, 139, 250, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      position: relative;
     }
+
+    /* إطار الترويسة المخصص بتدرج بنفسجي ملكي جذاب */
+    .header-card {
+      background: linear-gradient(135deg, #4c1d95 0%, #6b21a8 50%, #7c3aed 100%);
+      border: 1px solid rgba(216, 180, 254, 0.35);
+      border-radius: 20px;
+      padding: 18px 14px 14px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 10px 25px -5px rgba(109, 40, 217, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #c084fc, #e879f9, #38bdf8);
+    }
+
     h2 {
       text-align: center;
-      margin: 0 0 6px 0;
-      color: #1e1b4b;
-      font-size: 19px;
+      margin: 0 0 8px 0;
+      color: #ffffff;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
+
     .author-badge {
       display: flex;
       align-items: center;
       justify-content: center;
       width: fit-content;
-      margin: 0 auto 10px auto;
-      padding: 4px 14px;
-      background: #f1f3fe;
-      border: 1px solid #e0e7ff;
-      border-radius: 20px;
-      font-size: 12px;
-      color: #4f46e5;
-      font-weight: 600;
+      margin: 0 auto 12px auto;
+      padding: 4px 16px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 30px;
+      font-size: 12.5px;
+      color: #f3e8ff;
+      font-weight: 700;
+      backdrop-filter: blur(4px);
     }
+
     .social-links {
       display: flex;
       justify-content: center;
       gap: 12px;
-      margin-bottom: 14px;
+      margin-top: 4px;
     }
+
     .social-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 38px;
       height: 38px;
-      border-radius: 50%;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      color: #6366f1;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
       text-decoration: none;
       transition: all 0.2s ease;
+      backdrop-filter: blur(4px);
     }
-    .social-btn:hover {
-      background: #6366f1;
-      color: #ffffff;
+
+    .social-btn:hover, .social-btn:active {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.28);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
     }
+
     .social-btn.wa-btn {
-      color: #25D366;
-      border-color: #dcfce7;
-      background: #f0fdf4;
+      color: #4ade80;
+      border-color: rgba(74, 222, 128, 0.35);
+      background: rgba(22, 101, 52, 0.2);
     }
+
     .social-btn.wa-btn:hover {
-      background: #25D366;
-      color: #ffffff;
-      border-color: #25D366;
+      background: rgba(34, 197, 94, 0.3);
     }
+
     .social-btn svg {
-      width: 20px;
-      height: 20px;
+      width: 19px;
+      height: 19px;
       fill: currentColor;
     }
+
     label {
-      font-weight: 600;
+      font-weight: 700;
       display: block;
-      margin-top: 12px;
+      margin-top: 14px;
       color: #334155;
       font-size: 13.5px;
     }
-    input {
+
+    .display-box {
       width: 100%;
-      padding: 11px;
-      margin-top: 5px;
-      box-sizing: border-box;
-      font-size: 18px;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 6px;
+      font-size: 20px;
+      border: 2px solid #e9d5ff;
+      border-radius: 14px;
       outline: none;
-      transition: border-color 0.2s;
-    }
-    #received {
+      transition: all 0.2s;
+      background: #ffffff;
+      color: #1e1b4b;
       direction: ltr;
       text-align: left;
-      font-family: monospace, sans-serif;
-      font-weight: bold;
+      font-family: 'SF Pro Display', ui-monospace, monospace;
+      font-weight: 700;
     }
-    #total {
-      direction: ltr;
-      text-align: left;
-      font-family: monospace, sans-serif;
-      font-weight: bold;
-      overflow-x: auto;
-      white-space: nowrap;
+
+    .display-box:focus {
+      border-color: #7c3aed;
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
     }
-    input:focus {
-      border-color: #6366f1;
-    }
+
     .word-preview {
       font-size: 12.5px;
-      color: #4f46e5;
+      color: #6b21a8;
       font-weight: 700;
-      margin-top: 3px;
+      margin-top: 4px;
       min-height: 18px;
     }
+
     .audit-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 4px;
-      min-height: 24px;
+      margin-top: 6px;
+      min-height: 26px;
       flex-wrap: wrap;
       gap: 6px;
     }
+
     .hint-total {
-      font-size: 12.5px;
-      color: #4f46e5;
-      font-weight: bold;
+      font-size: 13px;
+      color: #581c87;
+      font-weight: 800;
       line-height: 1.4;
     }
+
     .btn-audit {
-      background: #ede9fe;
-      color: #4338ca;
-      border: 1px solid #c7d2fe;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 11.5px;
-      font-weight: bold;
+      background: #f3e8ff;
+      color: #6b21a8;
+      border: 1px solid #d8b4fe;
+      padding: 5px 12px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       transition: all 0.2s;
     }
+
     .btn-audit:hover {
-      background: #e0e7ff;
+      background: #e9d5ff;
     }
 
+    /* لوحة الأزرار */
     .pos-keypad {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      margin-top: 10px;
-      background: #f8fafc;
-      padding: 10px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      gap: 8px;
+      margin-top: 14px;
+      background: rgba(243, 232, 255, 0.4);
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid #e9d5ff;
     }
+
     .key-btn {
-      padding: 11px 4px;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: bold;
-      border: 1px solid #cbd5e1;
+      padding: 13px 4px;
+      border-radius: 11px;
+      font-size: 16px;
+      font-weight: 700;
+      border: 1px solid #e2e8f0;
       background: #ffffff;
-      color: #1e293b;
+      color: #1e1b4b;
       cursor: pointer;
       text-align: center;
-      transition: all 0.1s;
+      transition: all 0.12s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      font-family: inherit;
     }
+
     .key-btn:active {
       transform: scale(0.96);
-      background: #e2e8f0;
+      background: #f5f3ff;
+      box-shadow: none;
     }
+
     .key-frac {
       background: #ede9fe;
-      color: #5b21b6;
+      color: #6b21a8;
       border-color: #ddd6fe;
       font-size: 13.5px;
     }
+
     .key-op {
       background: #e0e7ff;
       color: #3730a3;
       border-color: #c7d2fe;
       font-size: 18px;
     }
+
+    .key-op-minus {
+      background: #ffe4e6;
+      color: #9f1239;
+      border-color: #fecdd3;
+      font-size: 20px;
+    }
+
     .key-del {
       background: #fee2e2;
       color: #991b1b;
       border-color: #fca5a5;
     }
+
     .key-clear {
       background: #f1f5f9;
       color: #64748b;
       border-color: #cbd5e1;
     }
 
-    /* نافذة المراجعة والتدقيق */
+    /* خيارات الفئات */
+    .options-box {
+      margin-top: 16px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid #e9d5ff;
+      border-radius: 16px;
+    }
+
+    .options-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #475569;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-toggle {
+      background: none;
+      border: none;
+      color: #7c3aed;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0;
+      font-weight: 700;
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #334155;
+      margin: 0;
+    }
+
+    .checkbox-label input {
+      accent-color: #7c3aed;
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+    }
+
+    /* النتائج والملخص */
+    .summary {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 800;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .success {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border: 1.5px solid var(--success-border);
+    }
+
+    .error {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1.5px solid var(--danger-border);
+    }
+
+    .breakdown {
+      margin-top: 18px;
+      border-top: 1px solid #f3e8ff;
+      padding-top: 14px;
+    }
+
+    .breakdown-title {
+      font-weight: 800;
+      color: #1e1b4b;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .currency-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 12px;
+      margin-bottom: 6px;
+      background: #ffffff;
+      border-radius: 11px;
+      border: 1px solid #e9d5ff;
+    }
+
+    .denom-name {
+      font-weight: 700;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .denom-count {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: white;
+      padding: 3px 11px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 2px 6px rgba(109, 40, 217, 0.3);
+    }
+
+    .rounding-note {
+      font-size: 12px;
+      color: var(--danger-text);
+      margin-top: 10px;
+      text-align: center;
+      background: var(--danger-bg);
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--danger-border);
+    }
+
+    /* نافذة التدقيق */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(15, 7, 34, 0.7);
+      backdrop-filter: blur(6px);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 14px;
+      padding: 16px;
       z-index: 1000;
     }
+
     .modal-card {
       background: #ffffff;
-      border-radius: 16px;
+      border-radius: 22px;
       width: 100%;
       max-width: 400px;
-      padding: 18px;
-      max-height: 92vh;
+      padding: 20px;
+      max-height: 90vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      box-sizing: border-box;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      border: 1px solid #e9d5ff;
     }
+
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #e2e8f0;
-      padding-bottom: 8px;
-      margin-bottom: 10px;
+      border-bottom: 1px solid #f3e8ff;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
     }
+
     .modal-header h3 {
       margin: 0;
       font-size: 16px;
       color: #1e1b4b;
+      font-weight: 800;
     }
+
     .modal-close-icon {
-      background: none;
+      background: #f3e8ff;
       border: none;
-      font-size: 18px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      color: #64748b;
+      color: #6b21a8;
+      font-weight: bold;
     }
+
     .audit-list {
       flex: 1;
       overflow-y: auto;
-      max-height: 160px;
-      border: 1px solid #f1f5f9;
-      border-radius: 8px;
-      padding: 6px;
-      background: #fafafa;
-      margin-bottom: 10px;
+      max-height: 180px;
+      border: 1px solid #f3e8ff;
+      border-radius: 12px;
+      padding: 8px;
+      background: #faf5ff;
+      margin-bottom: 12px;
     }
+
     .audit-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 6px 10px;
+      padding: 8px 12px;
       background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      margin-bottom: 5px;
-      font-size: 13.5px;
-      font-weight: 600;
-    }
-    .audit-item.latest {
-      border-color: #818cf8;
-      background: #f5f3ff;
-    }
-    .badge-latest {
-      font-size: 10.5px;
-      background: #6366f1;
-      color: white;
-      padding: 2px 6px;
-      border-radius: 10px;
-      margin-left: 6px;
-    }
-    .audit-item-del {
-      color: #ef4444;
-      background: none;
-      border: none;
+      border: 1px solid #e9d5ff;
+      border-radius: 9px;
+      margin-bottom: 6px;
       font-size: 14px;
-      cursor: pointer;
-      padding: 2px 6px;
-    }
-    .audit-total-line {
-      font-size: 13.5px;
-      font-weight: bold;
-      color: #4338ca;
-      text-align: center;
-      padding: 6px;
-      background: #eef2ff;
-      border-radius: 6px;
-      margin-bottom: 10px;
-      line-height: 1.4;
+      font-weight: 700;
     }
 
-    .options-box {
-      margin-top: 14px;
-      padding: 12px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
+    .audit-item.latest {
+      border-color: #c084fc;
+      background: #faf5ff;
     }
-    .options-title {
-      font-size: 13px;
-      font-weight: bold;
-      color: #475569;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .btn-toggle {
-      background: none;
-      border: none;
-      color: #6366f1;
-      cursor: pointer;
-      font-size: 12px;
-      padding: 0;
-      font-weight: 600;
-    }
-    .checkbox-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-    }
-    .checkbox-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: normal;
-      margin-top: 0;
-      cursor: pointer;
-      color: #1e293b;
-    }
-    .checkbox-label input {
-      accent-color: #6366f1;
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-    }
-    .summary {
-      margin-top: 16px;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .success { background: #dcfce7; color: #166534; }
-    .error { background: #fee2e2; color: #991b1b; }
-    .breakdown {
-      margin-top: 16px;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 12px;
-    }
-    .breakdown-title {
-      font-weight: bold;
-      color: #1e293b;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-    .currency-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 7px 10px;
-      margin-bottom: 5px;
-      background: #f8fafc;
-      border-radius: 6px;
-      border: 1px solid #e2e8f0;
-    }
-    .denom-name { font-weight: 600; color: #334155; font-size: 13.5px; }
-    .denom-count {
-      background: #6366f1;
+
+    .badge-latest {
+      font-size: 10px;
+      background: #7c3aed;
       color: white;
-      padding: 3px 9px;
-      border-radius: 16px;
-      font-size: 13px;
-      font-weight: bold;
+      padding: 2px 7px;
+      border-radius: 8px;
+      margin-left: 6px;
     }
-    .rounding-note {
-      font-size: 12px;
-      color: #b91c1c;
-      margin-top: 8px;
-      text-align: center;
-      background: #fff1f2;
-      padding: 6px;
+
+    .audit-item-del {
+      color: #ef4444;
+      background: #fee2e2;
+      border: none;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 4px 8px;
       border-radius: 6px;
-      border: 1px solid #fecdd3;
+    }
+
+    .audit-total-line {
+      font-size: 14px;
+      font-weight: 800;
+      color: #581c87;
+      text-align: center;
+      padding: 8px;
+      background: #f3e8ff;
+      border-radius: 9px;
+      margin-bottom: 12px;
+      line-height: 1.4;
     }
   </style>
 </head>
 <body>
 
 <div class="card">
-  <h2>درج الكاشير - حساب الباقي والفئات</h2>
+  <!-- إطار الترويسة بالتدريج البنفسجي الأنيق -->
+  <div class="header-card">
+    <h2>درج الكاشير - حساب الباقي</h2>
 
-  <div class="author-badge">
-    <span>المحامي احمد صكبان</span>
+    <div class="author-badge">
+      <span>المحامي احمد صكبان</span>
+    </div>
+
+    <div class="social-links">
+      <a href="tel:07807493999" class="social-btn" title="اتصال هاتفي">
+        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+      </a>
+      <a href="https://api.whatsapp.com/send?phone=9647807493999" target="_blank" rel="noopener noreferrer" class="social-btn wa-btn" title="واتساب">
+        <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm.01 18.08c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.04 8.04 0 0 1-1.24-4.31c0-4.48 3.65-8.13 8.14-8.13 2.17 0 4.21.85 5.75 2.38a8.07 8.07 0 0 1 2.39 5.75c0 4.49-3.66 8.16-8.25 8.16z"/></svg>
+      </a>
+      <a href="https://telegram.me/lwa97" target="_blank" rel="noopener noreferrer" class="social-btn" title="تليغرام">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/lw_az6/" target="_blank" rel="noopener noreferrer" class="social-btn" title="إنستغرام">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+    </div>
   </div>
 
-  <div class="social-links">
-    <a href="tel:07807493999" class="social-btn" title="اتصال هاتفي">
-      <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-    </a>
-    <a href="https://api.whatsapp.com/send?phone=9647807493999" target="_blank" rel="noopener noreferrer" class="social-btn wa-btn" title="واتساب">
-      <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm.01 18.08c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.04 8.04 0 0 1-1.24-4.31c0-4.48 3.65-8.13 8.14-8.13 2.17 0 4.21.85 5.75 2.38a8.07 8.07 0 0 1 2.39 5.75c0 4.49-3.66 8.16-8.25 8.16z"/></svg>
-    </a>
-    <a href="https://telegram.me/lwa97" target="_blank" rel="noopener noreferrer" class="social-btn" title="تليغرام">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-    </a>
-    <a href="https://www.instagram.com/lw_az6/" target="_blank" rel="noopener noreferrer" class="social-btn" title="إنستغرام">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-    </a>
-  </div>
-
-  <label>المبلغ المستلم من الزبون (بالدينار):</label>
-  <input type="text" id="received" placeholder="مثال: 50,000" inputmode="numeric" oninput="formatReceivedInput()">
+  <label>المبلغ المستلم من الزبون (د.ع):</label>
+  <input type="text" id="received" class="display-box" placeholder="مثال: 50,000" inputmode="numeric" oninput="formatReceivedInput()">
   <div id="receivedWords" class="word-preview"></div>
 
-  <label>المبلغ المطلوب:</label>
-  <input type="text" id="total" placeholder="0" readonly>
+  <label>المبلغ المطلوب (الحساب):</label>
+  <input type="text" id="total" class="display-box" placeholder="0" readonly>
   
   <div class="audit-bar">
     <div id="hintTotal" class="hint-total"></div>
-    <button type="button" class="btn-audit" onclick="openAuditModal()">📋 تدقيق ومراجعة المبالغ</button>
+    <button type="button" class="btn-audit" onclick="openAuditModal()">📋 تدقيق ومراجعة</button>
   </div>
 
-  <!-- لوحة الكاشير الرئيسية -->
+  <!-- لوحة الأرقام -->
   <div class="pos-keypad" id="mainKeypad">
     <button type="button" class="key-btn" onclick="pressKey('7')">7</button>
     <button type="button" class="key-btn" onclick="pressKey('8')">8</button>
@@ -456,15 +592,15 @@
     <button type="button" class="key-btn" onclick="pressKey('0')">0</button>
     <button type="button" class="key-btn key-op" onclick="pressKey('000')">000</button>
     <button type="button" class="key-btn key-op" onclick="pressOp('+')">+</button>
-    <button type="button" class="key-btn key-op" onclick="pressOp('-')">-</button>
+    <button type="button" class="key-btn key-op-minus" onclick="pressOp('-')">-</button>
 
     <button type="button" class="key-btn key-del" style="grid-column: span 2;" onclick="pressDel()">⌫ حذف</button>
-    <button type="button" class="key-btn key-clear" style="grid-column: span 2;" onclick="pressClear()">مسح بالكامل (C)</button>
+    <button type="button" class="key-btn key-clear" style="grid-column: span 2;" onclick="pressClear()">مسح الحقل (C)</button>
   </div>
 
   <div class="options-box">
     <div class="options-title">
-      <span>الفئات المتوفرة في الدرج:</span>
+      <span>الفئات النقدية المتوفرة:</span>
       <button type="button" class="btn-toggle" onclick="toggleAll()">تحديد الكل / إلغاء</button>
     </div>
     <div class="checkbox-grid">
@@ -491,7 +627,7 @@
 <div id="auditModal" class="modal-overlay" style="display:none;">
   <div class="modal-card">
     <div class="modal-header">
-      <h3>قائمة تدقيق المبالغ (من الأحدث للأقدم)</h3>
+      <h3>تدقيق المبالغ المدخلة</h3>
       <button type="button" class="modal-close-icon" onclick="closeAuditModal()">✖</button>
     </div>
 
@@ -499,7 +635,7 @@
 
     <div class="audit-total-line" id="modalTotalLine">المجموع: 0 د.ع</div>
 
-    <div class="pos-keypad" style="margin-top:0; padding:6px;">
+    <div class="pos-keypad" style="margin-top:0; padding:8px;">
       <button type="button" class="key-btn" onclick="pressKey('7')">7</button>
       <button type="button" class="key-btn" onclick="pressKey('8')">8</button>
       <button type="button" class="key-btn" onclick="pressKey('9')">9</button>
@@ -518,10 +654,10 @@
       <button type="button" class="key-btn" onclick="pressKey('0')">0</button>
       <button type="button" class="key-btn key-op" onclick="pressKey('000')">000</button>
       <button type="button" class="key-btn key-op" onclick="pressOp('+')">+</button>
-      <button type="button" class="key-btn key-op" onclick="pressOp('-')">-</button>
+      <button type="button" class="key-btn key-op-minus" onclick="pressOp('-')">-</button>
     </div>
 
-    <button type="button" class="key-btn" style="background:#6366f1; color:#fff; border:none; margin-top:8px; padding: 11px;" onclick="closeAuditModal()">تم وإغلاق النافذة</button>
+    <button type="button" class="key-btn" style="background:#7c3aed; color:#fff; border:none; margin-top:10px; padding:12px;" onclick="closeAuditModal()">تم وحفظ</button>
   </div>
 </div>
 
@@ -550,7 +686,6 @@ function formatIQDWords(num) {
   
   var parts = [];
 
-  // معالجة المليارات
   if (billions > 0) {
     if (billions === 1) parts.push("مليار");
     else if (billions === 2) parts.push("مليارين");
@@ -558,15 +693,13 @@ function formatIQDWords(num) {
     else parts.push(billions.toLocaleString('en-US') + " مليار");
   }
 
-  // معالجة الملايين
   if (millions > 0) {
     if (millions === 1) parts.push("مليون");
     else if (millions === 2) parts.push("مليونين");
-    else if (millions >= 3 && billions <= 10) parts.push(millions + " ملايين");
+    else if (millions >= 3 && millions <= 10) parts.push(millions + " ملايين");
     else parts.push(millions.toLocaleString('en-US') + " مليون");
   }
 
-  // معالجة الآلاف
   if (thousands > 0) {
     if (thousands === 1) parts.push("ألف");
     else if (thousands === 2) parts.push("ألفين");
@@ -574,7 +707,6 @@ function formatIQDWords(num) {
     else parts.push(thousands.toLocaleString('en-US') + " ألف");
   }
 
-  // معالجة الفكة / الكسور
   if (remainder > 0) {
     var remText = remainder === 250 ? "ربع" : remainder === 500 ? "نص" : remainder === 750 ? "إلا ربع" : remainder;
     parts.push(remText);
