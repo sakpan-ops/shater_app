@@ -2,112 +2,85 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>درج الكاشير - حساب الباقي والفئات</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #eeeaf8;
+      background: #f5f3ff;
       margin: 0;
       padding: 16px;
       display: flex;
       justify-content: center;
     }
     .card {
-      background: #fbfbfe;
-      padding: 18px;
+      background: #ffffff;
+      padding: 22px;
       border-radius: 16px;
       width: 100%;
       max-width: 420px;
-      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.1);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.12);
       box-sizing: border-box;
-      border: 1px solid #e0dcf2;
+      border: 1px solid #ede9fe;
     }
-
-    /* المستطيل العلوي المدمج للهوية وأزرار التواصل */
-    .top-header-box {
-      background: linear-gradient(145deg, #4f46e5, #3730a3);
-      border-radius: 14px;
-      padding: 14px 12px 10px;
-      margin-bottom: 14px;
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.22);
-      border: 1px solid #6366f1;
+    h2 {
       text-align: center;
-      color: #ffffff;
+      margin: 0 0 6px 0;
+      color: #1e1b4b;
+      font-size: 19px;
     }
-    .top-header-box h2 {
-      margin: 0 0 4px 0;
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.2px;
-    }
-    .top-header-box .author-badge {
-      display: inline-flex;
+    .author-badge {
+      display: flex;
       align-items: center;
       justify-content: center;
+      width: fit-content;
       margin: 0 auto 10px auto;
-      padding: 3px 14px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 14px;
+      background: #f1f3fe;
+      border: 1px solid #e0e7ff;
       border-radius: 20px;
-      font-size: 11.5px;
-      color: #f5f3ff;
+      font-size: 12px;
+      color: #4f46e5;
       font-weight: 600;
-      backdrop-filter: blur(4px);
     }
-    .top-header-box .social-links {
+    .social-links {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 2px;
+      gap: 12px;
+      margin-bottom: 14px;
     }
-    .top-header-box .social-btn {
+    .social-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #ffffff;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #6366f1;
       text-decoration: none;
       transition: all 0.2s ease;
     }
-    .top-header-box .social-btn:active {
-      transform: scale(0.94);
-      background: rgba(255, 255, 255, 0.28);
+    .social-btn:hover {
+      background: #6366f1;
+      color: #ffffff;
     }
-    .top-header-box .social-btn.wa-btn {
-      color: #86efac;
-      border-color: rgba(34, 197, 94, 0.45);
-      background: rgba(34, 197, 94, 0.18);
+    .social-btn.wa-btn {
+      color: #25D366;
+      border-color: #dcfce7;
+      background: #f0fdf4;
     }
-    .top-header-box .social-btn.call-btn {
-      color: #bae6fd;
-      border-color: rgba(56, 189, 248, 0.45);
-      background: rgba(56, 189, 248, 0.18);
+    .social-btn.wa-btn:hover {
+      background: #25D366;
+      color: #ffffff;
+      border-color: #25D366;
     }
-    .top-header-box .social-btn.tg-btn {
-      color: #bfdbfe;
-      border-color: rgba(96, 165, 250, 0.45);
-      background: rgba(96, 165, 250, 0.18);
-    }
-    .top-header-box .social-btn.ig-btn {
-      color: #fbcfe8;
-      border-color: rgba(244, 114, 182, 0.45);
-      background: rgba(244, 114, 182, 0.18);
-    }
-    .top-header-box .social-btn svg {
-      width: 18px;
-      height: 18px;
+    .social-btn svg {
+      width: 20px;
+      height: 20px;
       fill: currentColor;
     }
-
     label {
       font-weight: 600;
       display: block;
@@ -124,7 +97,6 @@
       border: 1.5px solid #cbd5e1;
       border-radius: 8px;
       outline: none;
-      background: #f8fafc;
       transition: border-color 0.2s;
     }
     #received {
@@ -143,7 +115,6 @@
     }
     input:focus {
       border-color: #6366f1;
-      background: #ffffff;
     }
     .word-preview {
       font-size: 12.5px;
@@ -187,17 +158,17 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
       margin-top: 10px;
-      background: #f2eefb;
+      background: #f8fafc;
       padding: 10px;
       border-radius: 12px;
-      border: 1px solid #ded6f5;
+      border: 1px solid #e2e8f0;
     }
     .key-btn {
       padding: 11px 4px;
       border-radius: 8px;
       font-size: 15px;
       font-weight: bold;
-      border: 1px solid #d4cde8;
+      border: 1px solid #cbd5e1;
       background: #ffffff;
       color: #1e293b;
       cursor: pointer;
@@ -206,7 +177,7 @@
     }
     .key-btn:active {
       transform: scale(0.96);
-      background: #e9e4f5;
+      background: #e2e8f0;
     }
     .key-frac {
       background: #ede9fe;
@@ -226,8 +197,8 @@
       border-color: #fca5a5;
     }
     .key-clear {
-      background: #e6e2f3;
-      color: #475569;
+      background: #f1f5f9;
+      color: #64748b;
       border-color: #cbd5e1;
     }
 
@@ -246,7 +217,7 @@
       z-index: 1000;
     }
     .modal-card {
-      background: #fbfbfe;
+      background: #ffffff;
       border-radius: 16px;
       width: 100%;
       max-width: 400px;
@@ -256,7 +227,6 @@
       flex-direction: column;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       box-sizing: border-box;
-      border: 1px solid #e0dcf2;
     }
     .modal-header {
       display: flex;
@@ -282,10 +252,10 @@
       flex: 1;
       overflow-y: auto;
       max-height: 160px;
-      border: 1px solid #e4e0f5;
+      border: 1px solid #f1f5f9;
       border-radius: 8px;
       padding: 6px;
-      background: #f6f3fc;
+      background: #fafafa;
       margin-bottom: 10px;
     }
     .audit-item {
@@ -294,7 +264,7 @@
       align-items: center;
       padding: 6px 10px;
       background: #ffffff;
-      border: 1px solid #ded8f3;
+      border: 1px solid #e2e8f0;
       border-radius: 6px;
       margin-bottom: 5px;
       font-size: 13.5px;
@@ -302,7 +272,7 @@
     }
     .audit-item.latest {
       border-color: #818cf8;
-      background: #ede9fe;
+      background: #f5f3ff;
     }
     .badge-latest {
       font-size: 10.5px;
@@ -335,8 +305,8 @@
     .options-box {
       margin-top: 14px;
       padding: 12px;
-      background: #f4f1fb;
-      border: 1px solid #e2ddf3;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
       border-radius: 8px;
     }
     .options-title {
@@ -390,7 +360,7 @@
     .error { background: #fee2e2; color: #991b1b; }
     .breakdown {
       margin-top: 16px;
-      border-top: 1px solid #e5e0f5;
+      border-top: 1px solid #e2e8f0;
       padding-top: 12px;
     }
     .breakdown-title {
@@ -405,9 +375,9 @@
       align-items: center;
       padding: 7px 10px;
       margin-bottom: 5px;
-      background: #f4f1fb;
+      background: #f8fafc;
       border-radius: 6px;
-      border: 1px solid #e0dcf2;
+      border: 1px solid #e2e8f0;
     }
     .denom-name { font-weight: 600; color: #334155; font-size: 13.5px; }
     .denom-count {
@@ -433,28 +403,25 @@
 <body>
 
 <div class="card">
-  
-  <div class="top-header-box">
-    <h2>درج الكاشير - حساب الباقي والفئات</h2>
+  <h2>درج الكاشير - حساب الباقي والفئات</h2>
 
-    <div class="author-badge">
-      <span>المحامي احمد صكبان</span>
-    </div>
+  <div class="author-badge">
+    <span>المحامي احمد صكبان</span>
+  </div>
 
-    <div class="social-links">
-      <a href="tel:07807493999" class="social-btn call-btn" title="اتصال هاتفي">
-        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-      </a>
-      <a href="https://api.whatsapp.com/send?phone=9647807493999" target="_blank" rel="noopener noreferrer" class="social-btn wa-btn" title="واتساب">
-        <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm.01 18.08c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.04 8.04 0 0 1-1.24-4.31c0-4.48 3.65-8.13 8.14-8.13 2.17 0 4.21.85 5.75 2.38a8.07 8.07 0 0 1 2.39 5.75c0 4.49-3.66 8.16-8.25 8.16z"/></svg>
-      </a>
-      <a href="https://telegram.me/lwa97" target="_blank" rel="noopener noreferrer" class="social-btn tg-btn" title="تليغرام">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-      </a>
-      <a href="https://www.instagram.com/lw_az6/" target="_blank" rel="noopener noreferrer" class="social-btn ig-btn" title="إنستغرام">
-        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      </a>
-    </div>
+  <div class="social-links">
+    <a href="tel:07807493999" class="social-btn" title="اتصال هاتفي">
+      <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+    </a>
+    <a href="https://api.whatsapp.com/send?phone=9647807493999" target="_blank" rel="noopener noreferrer" class="social-btn wa-btn" title="واتساب">
+      <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm.01 18.08c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.04 8.04 0 0 1-1.24-4.31c0-4.48 3.65-8.13 8.14-8.13 2.17 0 4.21.85 5.75 2.38a8.07 8.07 0 0 1 2.39 5.75c0 4.49-3.66 8.16-8.25 8.16z"/></svg>
+    </a>
+    <a href="https://telegram.me/lwa97" target="_blank" rel="noopener noreferrer" class="social-btn" title="تليغرام">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/lw_az6/" target="_blank" rel="noopener noreferrer" class="social-btn" title="إنستغرام">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
   </div>
 
   <label>المبلغ المستلم من الزبون (بالدينار):</label>
@@ -489,9 +456,10 @@
     <button type="button" class="key-btn" onclick="pressKey('0')">0</button>
     <button type="button" class="key-btn key-op" onclick="pressKey('000')">000</button>
     <button type="button" class="key-btn key-op" onclick="pressOp('+')">+</button>
-    <button type="button" class="key-btn key-del" onclick="pressDel()">⌫</button>
+    <button type="button" class="key-btn key-op" onclick="pressOp('-')">-</button>
 
-    <button type="button" class="key-btn key-clear" style="grid-column: span 4;" onclick="pressClear()">مسح الحقل بالكامل (C)</button>
+    <button type="button" class="key-btn key-del" style="grid-column: span 2;" onclick="pressDel()">⌫ حذف</button>
+    <button type="button" class="key-btn key-clear" style="grid-column: span 2;" onclick="pressClear()">مسح بالكامل (C)</button>
   </div>
 
   <div class="options-box">
@@ -550,10 +518,10 @@
       <button type="button" class="key-btn" onclick="pressKey('0')">0</button>
       <button type="button" class="key-btn key-op" onclick="pressKey('000')">000</button>
       <button type="button" class="key-btn key-op" onclick="pressOp('+')">+</button>
-      <button type="button" class="key-btn key-del" onclick="pressDel()">⌫</button>
+      <button type="button" class="key-btn key-op" onclick="pressOp('-')">-</button>
     </div>
 
-    <button type="button" class="key-btn" style="background:#6366f1; color:#fff; border:none; margin-top:8px;" onclick="closeAuditModal()">تم وإغلاق النافذة</button>
+    <button type="button" class="key-btn" style="background:#6366f1; color:#fff; border:none; margin-top:8px; padding: 11px;" onclick="closeAuditModal()">تم وإغلاق النافذة</button>
   </div>
 </div>
 
@@ -582,6 +550,7 @@ function formatIQDWords(num) {
   
   var parts = [];
 
+  // معالجة المليارات
   if (billions > 0) {
     if (billions === 1) parts.push("مليار");
     else if (billions === 2) parts.push("مليارين");
@@ -589,13 +558,15 @@ function formatIQDWords(num) {
     else parts.push(billions.toLocaleString('en-US') + " مليار");
   }
 
+  // معالجة الملايين
   if (millions > 0) {
     if (millions === 1) parts.push("مليون");
     else if (millions === 2) parts.push("مليونين");
-    else if (millions >= 3 && millions <= 10) parts.push(millions + " ملايين");
+    else if (millions >= 3 && billions <= 10) parts.push(millions + " ملايين");
     else parts.push(millions.toLocaleString('en-US') + " مليون");
   }
 
+  // معالجة الآلاف
   if (thousands > 0) {
     if (thousands === 1) parts.push("ألف");
     else if (thousands === 2) parts.push("ألفين");
@@ -603,6 +574,7 @@ function formatIQDWords(num) {
     else parts.push(thousands.toLocaleString('en-US') + " ألف");
   }
 
+  // معالجة الفكة / الكسور
   if (remainder > 0) {
     var remText = remainder === 250 ? "ربع" : remainder === 500 ? "نص" : remainder === 750 ? "إلا ربع" : remainder;
     parts.push(remText);
@@ -632,13 +604,13 @@ var currentTotalExpr = "";
 
 function getCurrentPart() {
   if (!currentTotalExpr) return "";
-  var parts = currentTotalExpr.split(" + ");
+  var parts = currentTotalExpr.split(/ \+ | \- /);
   return parts[parts.length - 1].trim();
 }
 
 function pressKey(val) {
   var lastPart = getCurrentPart();
-  if ((val === '0' || val === '000') && (lastPart === "" || currentTotalExpr.endsWith(" + "))) {
+  if ((val === '0' || val === '000') && (lastPart === "" || currentTotalExpr.endsWith(" + ") || currentTotalExpr.endsWith(" - "))) {
     return;
   }
   currentTotalExpr += val;
@@ -646,31 +618,31 @@ function pressKey(val) {
 }
 
 function normalizeCurrentPart() {
-  if (!currentTotalExpr || currentTotalExpr.endsWith(" + ")) return;
-  var parts = currentTotalExpr.split(" + ");
-  var lastPart = parts[parts.length - 1].trim();
-  var num = parseFloat(lastPart);
+  if (!currentTotalExpr || currentTotalExpr.endsWith(" + ") || currentTotalExpr.endsWith(" - ")) return;
+  var tokens = currentTotalExpr.trim().split(" ");
+  var lastToken = tokens[tokens.length - 1];
+  var num = parseFloat(lastToken);
   
   if (!isNaN(num) && num > 0 && num < 250) {
-    parts[parts.length - 1] = (num * 1000).toString();
-    currentTotalExpr = parts.join(" + ");
+    tokens[tokens.length - 1] = (num * 1000).toString();
+    currentTotalExpr = tokens.join(" ");
   }
 }
 
 function pressOp(op) {
-  if (currentTotalExpr === "" || currentTotalExpr.endsWith(" + ")) return;
+  if (currentTotalExpr === "" || currentTotalExpr.endsWith(" + ") || currentTotalExpr.endsWith(" - ")) return;
   normalizeCurrentPart();
   currentTotalExpr += " " + op + " ";
   updateTotalField();
 }
 
 function pressSmartFrac(fracVal) {
-  if (currentTotalExpr === "" || currentTotalExpr.endsWith(" + ")) {
+  if (currentTotalExpr === "" || currentTotalExpr.endsWith(" + ") || currentTotalExpr.endsWith(" - ")) {
     currentTotalExpr += fracVal + " + ";
   } else {
-    var parts = currentTotalExpr.split(" + ");
-    var lastPart = parts[parts.length - 1].trim();
-    var lastNum = parseFloat(lastPart);
+    var tokens = currentTotalExpr.trim().split(" ");
+    var lastToken = tokens[tokens.length - 1];
+    var lastNum = parseFloat(lastToken);
 
     if (!isNaN(lastNum)) {
       var combined = 0;
@@ -684,8 +656,8 @@ function pressSmartFrac(fracVal) {
         updateTotalField();
         return;
       }
-      parts[parts.length - 1] = combined.toString();
-      currentTotalExpr = parts.join(" + ") + " + ";
+      tokens[tokens.length - 1] = combined.toString();
+      currentTotalExpr = tokens.join(" ") + " + ";
     } else {
       currentTotalExpr += fracVal + " + ";
     }
@@ -694,7 +666,7 @@ function pressSmartFrac(fracVal) {
 }
 
 function pressDel() {
-  if (currentTotalExpr.endsWith(" + ")) {
+  if (currentTotalExpr.endsWith(" + ") || currentTotalExpr.endsWith(" - ")) {
     currentTotalExpr = currentTotalExpr.slice(0, -3);
   } else {
     currentTotalExpr = currentTotalExpr.slice(0, -1);
@@ -730,44 +702,67 @@ function closeAuditModal() {
   document.getElementById('auditModal').style.display = 'none';
 }
 
+function parseTotalExpression() {
+  var expr = currentTotalExpr.trim();
+  if (expr.endsWith("+") || expr.endsWith("-")) {
+    expr = expr.slice(0, -1).trim();
+  }
+  if (!expr) return { total: 0, items: [] };
+
+  var tokens = expr.split(/\s+/);
+  var total = 0;
+  var items = [];
+  var currentSign = 1;
+
+  for (var i = 0; i < tokens.length; i++) {
+    var t = tokens[i];
+    if (t === "+") {
+      currentSign = 1;
+    } else if (t === "-") {
+      currentSign = -1;
+    } else {
+      var num = parseFloat(t);
+      if (!isNaN(num)) {
+        var actualVal = (num > 0 && num < 250) ? (num * 1000) : num;
+        total += (actualVal * currentSign);
+        items.push({
+          val: actualVal,
+          sign: currentSign,
+          tokenIndex: i
+        });
+      }
+    }
+  }
+
+  return { total: Math.max(0, total), items: items };
+}
+
 function renderAuditList() {
   var listEl = document.getElementById('auditItemsList');
   listEl.innerHTML = "";
-  
-  var trimmedExpr = currentTotalExpr.trim();
-  if (trimmedExpr.endsWith("+")) {
-    trimmedExpr = trimmedExpr.slice(0, -1).trim();
-  }
 
-  if (!trimmedExpr) {
+  var parsed = parseTotalExpression();
+  var itemsArray = parsed.items;
+  var validSum = parsed.total;
+
+  if (itemsArray.length === 0) {
     listEl.innerHTML = "<div style='text-align:center; color:#94a3b8; padding:20px; font-size:13px;'>لا توجد مبالغ مدخلة حتى الآن</div>";
     document.getElementById('modalTotalLine').innerText = "المجموع: 0 د.ع";
     return;
   }
 
-  var parts = trimmedExpr.split(" + ");
-  var validSum = 0;
-  var itemsArray = [];
-
-  for (var i = 0; i < parts.length; i++) {
-    var raw = parts[i].trim();
-    if (!raw) continue;
-    var num = parseFloat(raw);
-    var actualVal = (num > 0 && num < 250) ? (num * 1000) : num;
-    validSum += actualVal;
-    itemsArray.push({ index: i, val: actualVal });
-  }
-
   for (var j = itemsArray.length - 1; j >= 0; j--) {
     var item = itemsArray[j];
     var isLatest = (j === itemsArray.length - 1);
+    var signPrefix = item.sign === -1 ? "- " : "+ ";
+    var colorStyle = item.sign === -1 ? "color: #dc2626;" : "color: #166534;";
 
     var div = document.createElement('div');
     div.className = "audit-item" + (isLatest ? " latest" : "");
-    div.innerHTML = "<span>" +
+    div.innerHTML = "<span style='" + colorStyle + "'>" +
                     (isLatest ? "<span class='badge-latest'>آخر إضافة</span>" : "") +
-                    item.val.toLocaleString('ar-IQ') + " د.ع</span>" +
-                    "<button type='button' class='audit-item-del' onclick='removeAuditItem(" + item.index + ")'>❌</button>";
+                    signPrefix + item.val.toLocaleString('ar-IQ') + " د.ع</span>" +
+                    "<button type='button' class='audit-item-del' onclick='removeAuditItem(" + j + ")'>❌</button>";
     listEl.appendChild(div);
   }
 
@@ -775,14 +770,24 @@ function renderAuditList() {
   document.getElementById('modalTotalLine').innerText = "المجموع: " + validSum.toLocaleString('ar-IQ') + " د.ع " + modalWords;
 }
 
-function removeAuditItem(index) {
-  var trimmedExpr = currentTotalExpr.trim();
-  if (trimmedExpr.endsWith("+")) {
-    trimmedExpr = trimmedExpr.slice(0, -1).trim();
+function removeAuditItem(itemIdx) {
+  var parsed = parseTotalExpression();
+  if (itemIdx < 0 || itemIdx >= parsed.items.length) return;
+
+  var expr = currentTotalExpr.trim();
+  if (expr.endsWith("+") || expr.endsWith("-")) {
+    expr = expr.slice(0, -1).trim();
   }
-  var parts = trimmedExpr.split(" + ");
-  parts.splice(index, 1);
-  currentTotalExpr = parts.length > 0 ? parts.join(" + ") + " + " : "";
+  var tokens = expr.split(/\s+/);
+  var targetTokenIdx = parsed.items[itemIdx].tokenIndex;
+
+  if (targetTokenIdx === 0) {
+    tokens.splice(0, (tokens.length > 1 && (tokens[1] === "+" || tokens[1] === "-")) ? 2 : 1);
+  } else {
+    tokens.splice(targetTokenIdx - 1, 2);
+  }
+
+  currentTotalExpr = tokens.length > 0 ? tokens.join(" ") + " + " : "";
   updateTotalField();
 }
 
@@ -801,21 +806,8 @@ function calculateIQD() {
   var rawReceived = recEl.value.replace(/[^0-9]/g, '');
   var received = parseFloat(rawReceived) || 0;
 
-  var total = 0;
-  if (currentTotalExpr.trim() !== "") {
-    var parts = currentTotalExpr.split('+');
-    for (var p = 0; p < parts.length; p++) {
-      var cleanStr = parts[p].replace(/[^0-9.]/g, '');
-      var num = parseFloat(cleanStr);
-      if (!isNaN(num)) {
-        if (num > 0 && num < 250) {
-          total += (num * 1000);
-        } else {
-          total += num;
-        }
-      }
-    }
-  }
+  var parsed = parseTotalExpression();
+  var total = parsed.total;
 
   var hintTot = document.getElementById('hintTotal');
   var status = document.getElementById('status');
